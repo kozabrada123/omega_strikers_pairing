@@ -1,0 +1,312 @@
+{
+  "teams": [
+    {
+      "goalie": {
+        "id": "e780b2f5-296c-44a7-b4c2-b499d72364f3",
+        "rank": 10,
+        "role_preferences": [
+          "Goalie",
+          "Midfield",
+          "Forward"
+        ],
+        "blacklisted_players": [
+          "9198a7f4-5908-4769-9d7b-5b893a6893e6"
+        ]
+      },
+      "midfield": {
+        "id": "7a21a934-7c80-48c2-a0f2-fb69e70cb8d2",
+        "rank": 4,
+        "role_preferences": [
+          "Midfield",
+          "Forward",
+          "Goalie"
+        ],
+        "blacklisted_players": [
+          "69eebe21-27a4-4491-9669-e2a0648ed207"
+        ]
+      },
+      "forward": {
+        "id": "601a6570-5b6c-40a6-a16f-ec1c8a671ad6",
+        "rank": 2,
+        "role_preferences": [
+          "Forward",
+          "Goalie",
+          "Midfield"
+        ]
+      }
+    },
+    {
+      "goalie": {
+        "id": "b7e9d0e7-ad44-4dda-9cf6-7676c62f1365",
+        "rank": 9,
+        "role_preferences": [
+          "Goalie",
+          "Forward",
+          "Midfield"
+        ]
+      },
+      "midfield": {
+        "id": "829fb28f-b292-4391-a5fc-f522c1768f5e",
+        "rank": 2,
+        "role_preferences": [
+          "Midfield",
+          "Forward",
+          "Goalie"
+        ]
+      },
+      "forward": {
+        "id": "e631e537-dda7-4a75-82de-fff3e1c4b419",
+        "rank": 5,
+        "role_preferences": [
+          "Forward",
+          "Midfield",
+          "Goalie"
+        ]
+      }
+    },
+    {
+      "goalie": {
+        "id": "43944dff-89c3-450f-bbe1-dcb6ef5a59a2",
+        "rank": 6,
+        "role_preferences": [
+          "Goalie",
+          "Midfield",
+          "Forward"
+        ]
+      },
+      "midfield": {
+        "id": "7dcb1195-b16f-474b-81a9-f4c4b80fe92f",
+        "rank": 6,
+        "role_preferences": [
+          "Midfield",
+          "Goalie",
+          "Forward"
+        ]
+      },
+      "forward": {
+        "id": "9198a7f4-5908-4769-9d7b-5b893a6893e6",
+        "rank": 4,
+        "role_preferences": [
+          "Forward",
+          "Midfield",
+          "Goalie"
+        ]
+      }
+    },
+    {
+      "goalie": {
+        "id": "277089d7-5ddd-4df7-95c3-d24fd3c8c277",
+        "rank": 11,
+        "role_preferences": [
+          "Goalie",
+          "Midfield",
+          "Forward"
+        ]
+      },
+      "midfield": {
+        "id": "6db3b2d9-f110-4e39-81d3-9239b0e2b3b4",
+        "rank": 2,
+        "role_preferences": [
+          "Midfield",
+          "Forward",
+          "Goalie"
+        ],
+        "blacklisted_players": [
+          "eb787007-d3fd-47cd-9aa7-408c21f0dcce"
+        ]
+      },
+      "forward": {
+        "id": "6aa9f223-0c52-498c-894e-f3f2a1b566f1",
+        "rank": 3,
+        "role_preferences": [
+          "Forward",
+          "Goalie",
+          "Midfield"
+        ]
+      }
+    },
+    {
+      "goalie": {
+        "id": "124b1109-cc31-458c-a1ea-b5dd0873d1a2",
+        "rank": 4,
+        "role_preferences": [
+          "Goalie",
+          "Forward",
+          "Midfield"
+        ]
+      },
+      "midfield": {
+        "id": "a04c9385-57e7-4a64-a7d7-b1b68a92474a",
+        "rank": 11,
+        "role_preferences": [
+          "Midfield",
+          "Forward",
+          "Goalie"
+        ],
+        "blacklisted_players": [
+          "6530e1d1-9e4a-4d78-a395-19039ad68cd0"
+        ]
+      },
+      "forward": {
+        "id": "4402479a-22e0-49cf-9a9b-a09df3a2c905",
+        "rank": 1,
+        "role_preferences": [
+          "Forward",
+          "Midfield",
+          "Goalie"
+        ]
+      }
+    },
+    {
+      "goalie": {
+        "id": "5a1c6df4-72ac-4464-a99f-8e597e4c9af9",
+        "rank": 4,
+        "role_preferences": [
+          "Goalie",
+          "Forward",
+          "Midfield"
+        ]
+      },
+      "midfield": {
+        "id": "89c035b1-1521-4833-909b-8705055c1c6b",
+        "rank": 2,
+        "role_preferences": [
+          "Midfield",
+          "Forward",
+          "Goalie"
+        ]
+      },
+      "forward": {
+        "id": "8c5e7590-330b-41bd-b124-f8e449821cf4",
+        "rank": 10,
+        "role_preferences": [
+          "Forward",
+          "Goalie",
+          "Midfield"
+        ],
+        "blacklisted_players": [
+          "601a6570-5b6c-40a6-a16f-ec1c8a671ad6"
+        ]
+      }
+    },
+    {
+      "goalie": {
+        "id": "49a37b00-5b25-43df-8080-fd1b52a30d2e",
+        "rank": 6,
+        "role_preferences": [
+          "Goalie",
+          "Forward",
+          "Midfield"
+        ]
+      },
+      "midfield": {
+        "id": "eb787007-d3fd-47cd-9aa7-408c21f0dcce",
+        "rank": 10,
+        "role_preferences": [
+          "Midfield",
+          "Goalie",
+          "Forward"
+        ]
+      },
+      "forward": {
+        "id": "1259b982-030c-4243-b588-80920fa79e5e",
+        "rank": 1,
+        "role_preferences": [
+          "Forward",
+          "Midfield",
+          "Goalie"
+        ]
+      }
+    },
+    {
+      "goalie": {
+        "id": "a17e4253-6b07-48e0-95fa-9beb6520cf23",
+        "rank": 8,
+        "role_preferences": [
+          "Goalie",
+          "Forward",
+          "Midfield"
+        ]
+      },
+      "midfield": {
+        "id": "8b4b3ba5-bfe0-46d1-844c-08acdcd528af",
+        "rank": 2,
+        "role_preferences": [
+          "Midfield",
+          "Goalie",
+          "Forward"
+        ]
+      },
+      "forward": {
+        "id": "dfaea4a9-e9cd-4dd1-9e4d-fdf7e3f1f041",
+        "rank": 6,
+        "role_preferences": [
+          "Forward",
+          "Midfield",
+          "Goalie"
+        ],
+        "blacklisted_players": [
+          "6aa9f223-0c52-498c-894e-f3f2a1b566f1"
+        ]
+      }
+    },
+    {
+      "goalie": {
+        "id": "ee2c362f-95aa-4774-b362-b48c6e9c7682",
+        "rank": 3,
+        "role_preferences": [
+          "Forward",
+          "Goalie",
+          "Midfield"
+        ]
+      },
+      "midfield": {
+        "id": "6530e1d1-9e4a-4d78-a395-19039ad68cd0",
+        "rank": 8,
+        "role_preferences": [
+          "Midfield",
+          "Forward",
+          "Goalie"
+        ]
+      },
+      "forward": {
+        "id": "31d7e139-e31e-46a3-b471-09f112d7e46f",
+        "rank": 8,
+        "role_preferences": [
+          "Forward",
+          "Goalie",
+          "Midfield"
+        ]
+      }
+    },
+    {
+      "goalie": {
+        "id": "69eebe21-27a4-4491-9669-e2a0648ed207",
+        "rank": 4,
+        "role_preferences": [
+          "Forward",
+          "Goalie",
+          "Midfield"
+        ]
+      },
+      "midfield": {
+        "id": "bae71d85-49f3-46d3-85d7-2cdb30df4bfc",
+        "rank": 3,
+        "role_preferences": [
+          "Forward",
+          "Midfield",
+          "Goalie"
+        ]
+      },
+      "forward": {
+        "id": "06e3e350-8afe-4bbf-add0-ced1fbe078db",
+        "rank": 9,
+        "role_preferences": [
+          "Forward",
+          "Midfield",
+          "Goalie"
+        ]
+      }
+    }
+  ]
+}
