@@ -240,4 +240,6 @@ fn main() {
     let serialized = serde_json::to_string_pretty(&result).unwrap();
 
     std::fs::write("output_teams.json", serialized.as_bytes()).expect("Failed to write output");
+
+	 dont_disappear::any_key_to_continue::default();
 }
