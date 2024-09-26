@@ -45,6 +45,20 @@ This is where the algorithm will pull its players from
 ]
 ```
 
+Create a two more json files: nouns.json and adjectives.json
+
+This is where we will pull random words to generate team names.
+
+nouns.json:
+```json
+["osteoporosis", "kerfuffle", "anesthesiologist", "diddle", "crapulence", "collywobbles", "borborygm", "scalawags", "whippersnappers", "debacle"]
+```
+
+adjectives.json:
+```json
+["gay", "yellow", "green", "homely", "whimsical", "magical", "metallic"]
+```
+
 Then, run the executable in the same directory.
 
 If running from source: `cargo run --release`
@@ -55,36 +69,39 @@ The algorithm will run, creating output_teams.json:
 {
   "teams": [
     {
-      "goalie": {
-        "id": "pogger",
-        "rank": 10,
-        "role_preferences": [
-          "Goalie",
-          "Midfield",
-          "Forward"
-        ]
+      "players": {
+        "goalie": {
+          "id": "pogger",
+          "rank": 10,
+          "role_preferences": [
+            "Goalie",
+            "Midfield",
+            "Forward"
+          ]
+        },
+        "midfield": {
+          "id": "logger",
+          "rank": 7,
+          "role_preferences": [
+            "Forward",
+            "Midfield",
+            "Goalie"
+          ],
+          "blacklisted_players": [
+            "pogger2"
+          ]
+        },
+        "forward": {
+          "id": "pogger2",
+          "rank": 5,
+          "role_preferences": [
+            "Forward",
+            "Goalie",
+            "Midfield"
+          ]
+        }
       },
-      "midfield": {
-        "id": "logger",
-        "rank": 7,
-        "role_preferences": [
-          "Forward",
-          "Midfield",
-          "Goalie"
-        ],
-        "blacklisted_players": [
-          "pogger2"
-        ]
-      },
-      "forward": {
-        "id": "pogger2",
-        "rank": 5,
-        "role_preferences": [
-          "Forward",
-          "Goalie",
-          "Midfield"
-        ]
-      }
+      "name": "homely whippersnappers"
     }
   ]
 }
