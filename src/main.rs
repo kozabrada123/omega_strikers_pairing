@@ -1,4 +1,4 @@
-use std::{collections::HashSet, fmt::Debug};
+use std::{collections::HashSet, fmt::Debug, io::{Read, Write}};
 
 use color_print::cprintln;
 use rand::Rng;
@@ -10,23 +10,63 @@ mod types;
 pub const NUM_PLAYERS: usize = 30;
 
 fn main() {
-    let read_from_string =
-        std::fs::read_to_string("players.json").expect("Failed to read players.json!");
+    let read_to_string_res =
+        std::fs::read_to_string("players.json");
 
-    let players: Vec<Player> =
-        serde_json::from_str(&read_from_string).expect("Players.json format is wrong");
+	 if let Err(ref e) = read_to_string_res {
+		println!("Failed to read players.json: {}", e);
+		pause();
+	 }
 
-    let read_from_string =
-        std::fs::read_to_string("adjectives.json").expect("Failed to read players.json!");
+	 let read_to_string = read_to_string_res.unwrap();
 
-    let team_name_adjectives: Vec<String> =
-        serde_json::from_str(&read_from_string).expect("Players.json format is wrong");
+    let players_res =
+        serde_json::from_str(&read_to_string);
 
-    let read_from_string =
-        std::fs::read_to_string("nouns.json").expect("Failed to read players.json!");
+	 if let Err(ref e) = players_res {
+		println!("Failed to deserialize players.json: {}", e);
+		pause();
+	 }
 
-    let team_name_nouns: Vec<String> =
-        serde_json::from_str(&read_from_string).expect("Players.json format is wrong");
+	 let players: Vec<Player> = players_res.unwrap();
+
+    let read_to_string_res =
+        std::fs::read_to_string("adjectives.json");
+
+	 if let Err(ref e) = read_to_string_res {
+		println!("Failed to read adjectives.json: {}", e);
+		pause();
+	 }
+
+	 let read_to_string = read_to_string_res.unwrap();
+
+	 let team_name_adjectives_res = serde_json::from_str(&read_to_string);
+
+	 if let Err(ref e) = team_name_adjectives_res {
+		println!("Failed to deserialize adjectives.json: {}", e);
+		pause();
+	 }
+
+    let team_name_adjectives: Vec<String> = team_name_adjectives_res.unwrap();
+
+	 let read_to_string_res =
+        std::fs::read_to_string("nouns.json");
+
+	 if let Err(ref e) = read_to_string_res {
+		println!("Failed to read nouns.json: {}", e);
+		pause();
+	 }
+
+	 let read_to_string = read_to_string_res.unwrap();
+
+	 let team_name_nouns_res = serde_json::from_str(&read_to_string);
+
+	 if let Err(ref e) = team_name_nouns_res {
+		println!("Failed to deserialize nouns.json: {}", e);
+		pause();
+	 }
+
+    let team_name_nouns: Vec<String> = team_name_nouns_res.unwrap();
 
     /*
 
@@ -239,7 +279,23 @@ fn main() {
 
     let serialized = serde_json::to_string_pretty(&result).unwrap();
 
-    std::fs::write("output_teams.json", serialized.as_bytes()).expect("Failed to write output");
+    let res = std::fs::write("output_teams.json", serialized.as_bytes());
 
-	 dont_disappear::any_key_to_continue::default();
+	 if let Err(e) = res {
+		println!("Failed to write output: {}", e);
+	 }
+
+	 pause();
+}
+
+fn pause() {
+    let mut stdin = std::io::stdin();
+    let mut stdout = std::io::stdout();
+
+    // We want the cursor to stay at the end of the line, so we print without a newline and flush manually.
+    write!(stdout, "Press any key to continue...").unwrap();
+    stdout.flush().unwrap();
+
+    // Read a single byte and discard
+    let _ = stdin.read(&mut [0u8]).unwrap();
 }
