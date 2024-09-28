@@ -1,8 +1,12 @@
-use std::{collections::HashSet, fmt::Debug, io::{Read, Write}};
+use std::{
+    collections::HashSet,
+    fmt::Debug,
+    io::{Read, Write},
+};
 
 use color_print::cprintln;
 use rand::Rng;
-use types::{NamedTeam, Player, Result, Role, Team};
+use types::{NamedTeam, Player, Result, Role, StringPlayer, StringTeam, Team};
 use uuid::Uuid;
 
 mod types;
@@ -10,63 +14,104 @@ mod types;
 pub const NUM_PLAYERS: usize = 30;
 
 fn main() {
-    let read_to_string_res =
-        std::fs::read_to_string("players.json");
+    let read_to_string_res = std::fs::read_to_string("players.json");
 
-	 if let Err(ref e) = read_to_string_res {
-		println!("Failed to read players.json: {}", e);
-		pause();
-	 }
+    if let Err(ref e) = read_to_string_res {
+        println!("Failed to read players.json: {}", e);
+        pause();
+    }
 
-	 let read_to_string = read_to_string_res.unwrap();
+    let read_to_string = read_to_string_res.unwrap();
 
-    let players_res =
-        serde_json::from_str(&read_to_string);
+    let players_res = serde_json::from_str(&read_to_string);
 
-	 if let Err(ref e) = players_res {
-		println!("Failed to deserialize players.json: {}", e);
-		pause();
-	 }
+    if let Err(ref e) = players_res {
+        println!("Failed to deserialize players.json: {}", e);
+        pause();
+    }
 
-	 let players: Vec<Player> = players_res.unwrap();
+    let string_players: Vec<StringPlayer> = players_res.unwrap();
 
-    let read_to_string_res =
-        std::fs::read_to_string("adjectives.json");
+    let read_to_string_res = std::fs::read_to_string("adjectives.json");
 
-	 if let Err(ref e) = read_to_string_res {
-		println!("Failed to read adjectives.json: {}", e);
-		pause();
-	 }
+    if let Err(ref e) = read_to_string_res {
+        println!("Failed to read adjectives.json: {}", e);
+        pause();
+    }
 
-	 let read_to_string = read_to_string_res.unwrap();
+    let read_to_string = read_to_string_res.unwrap();
 
-	 let team_name_adjectives_res = serde_json::from_str(&read_to_string);
+    let team_name_adjectives_res = serde_json::from_str(&read_to_string);
 
-	 if let Err(ref e) = team_name_adjectives_res {
-		println!("Failed to deserialize adjectives.json: {}", e);
-		pause();
-	 }
+    if let Err(ref e) = team_name_adjectives_res {
+        println!("Failed to deserialize adjectives.json: {}", e);
+        pause();
+    }
 
     let team_name_adjectives: Vec<String> = team_name_adjectives_res.unwrap();
 
-	 let read_to_string_res =
-        std::fs::read_to_string("nouns.json");
+    let read_to_string_res = std::fs::read_to_string("nouns.json");
 
-	 if let Err(ref e) = read_to_string_res {
-		println!("Failed to read nouns.json: {}", e);
-		pause();
-	 }
+    if let Err(ref e) = read_to_string_res {
+        println!("Failed to read nouns.json: {}", e);
+        pause();
+    }
 
-	 let read_to_string = read_to_string_res.unwrap();
+    let read_to_string = read_to_string_res.unwrap();
 
-	 let team_name_nouns_res = serde_json::from_str(&read_to_string);
+    let team_name_nouns_res = serde_json::from_str(&read_to_string);
 
-	 if let Err(ref e) = team_name_nouns_res {
-		println!("Failed to deserialize nouns.json: {}", e);
-		pause();
-	 }
+    if let Err(ref e) = team_name_nouns_res {
+        println!("Failed to deserialize nouns.json: {}", e);
+        pause();
+    }
 
     let team_name_nouns: Vec<String> = team_name_nouns_res.unwrap();
+
+    // Cloning names is expensive, so only keep one instance of them while refering by
+    // index in other cases
+    let mut player_names = Vec::new();
+    let mut players = Vec::new();
+
+    for i in 0..string_players.len() {
+        let player = string_players.get(i).unwrap();
+
+        player_names.push(player.id.clone());
+    }
+
+    for i in 0..string_players.len() {
+        let player = string_players.get(i).unwrap();
+
+        let mut player_name_index = 0;
+
+        for j in 0..player_names.len() {
+            let random_player_name = player_names.get(j).unwrap();
+
+            if player.id.eq(random_player_name) {
+                player_name_index = j;
+            }
+        }
+
+        let mut blacklisted_players = Vec::new();
+
+        for blacklisted_player_id in player.blacklisted_players.clone().into_iter() {
+            let mut blacklisted_player_name_index = 0;
+
+            for j in 0..player_names.len() {
+                let random_player_name = player_names.get(j).unwrap();
+
+                if blacklisted_player_id.eq(random_player_name) {
+                    blacklisted_player_name_index = j;
+                }
+            }
+
+				blacklisted_players.push(blacklisted_player_name_index);
+        }
+
+		  let id_player = Player { id: player_name_index, blacklisted_players, role_preferences: player.role_preferences, rank: player.rank };
+
+		  players.push(id_player);
+    }
 
     /*
 
@@ -102,11 +147,11 @@ fn main() {
 
     let started = std::time::Instant::now();
 
-    let mut sum_of_ranks = 0;
+    let mut sum_of_ranks: f64 = 0.0;
     for i in 0..players.len() {
-        sum_of_ranks += players[i].rank;
+        sum_of_ranks += players.get(i).unwrap().rank as f64;
     }
-    let average_rank = sum_of_ranks as f64 / players.len() as f64;
+    let average_rank = sum_of_ranks / players.len() as f64;
 
     cprintln!("<magenta>Average rank: {:.2}</magenta>", average_rank);
 
@@ -139,7 +184,6 @@ fn main() {
 
     // Make a result by just going from the top -- greedy
     let mut teams = Vec::new();
-    let mut taken_players: HashSet<String> = HashSet::new();
 
     let mut phase = 0;
 
@@ -159,23 +203,18 @@ fn main() {
                 // Assess all the teams in this phase, along with the teams left after we've taken it
                 //
                 // E.g. look one step ahead
-                let team = possible_teams.get(i).unwrap();
+                let team = possible_teams.get(i).unwrap().clone();
 
                 // Hypothetically, take this team and see which ones are left
-                let mut taken_players_next = taken_players.clone();
                 let mut possible_teams_next = possible_teams.clone();
 
                 // Hypothetically take this team
-                taken_players_next.insert(team.0.goalie.id.clone());
-                taken_players_next.insert(team.0.midfield.id.clone());
-                taken_players_next.insert(team.0.forward.id.clone());
-
                 possible_teams_next = possible_teams_next
                     .into_iter()
-                    .filter(|x| {
-                        !taken_players_next.contains(&x.0.goalie.id)
-                            && !taken_players_next.contains(&x.0.midfield.id)
-                            && !taken_players_next.contains(&x.0.forward.id)
+                    .filter(|other_possible_team| {
+                        !other_possible_team.0.in_team(team.0.goalie.id)
+                            && !other_possible_team.0.in_team(team.0.midfield.id)
+                            && !other_possible_team.0.in_team(team.0.forward.id)
                     })
                     .collect();
 
@@ -196,25 +235,21 @@ fn main() {
             // Sort by the next scores, take the best one
             team_scores_this_phase.sort_by(|x, y| y.1.total_cmp(&x.1));
 
-            team = team_scores_this_phase.get(0).unwrap().0;
+            team = team_scores_this_phase.get(0).unwrap().0.clone();
         } else {
             // Take the best team, for now don't bother
-            team = possible_teams.get(0).unwrap();
+            team = possible_teams.get(0).unwrap().clone();
         }
 
         teams.push(team.0.clone());
 
         // Take this team, actually this time
-        taken_players.insert(team.0.goalie.id.clone());
-        taken_players.insert(team.0.midfield.id.clone());
-        taken_players.insert(team.0.forward.id.clone());
-
         possible_teams = possible_teams
             .into_iter()
-            .filter(|x| {
-                !taken_players.contains(&x.0.goalie.id)
-                    && !taken_players.contains(&x.0.midfield.id)
-                    && !taken_players.contains(&x.0.forward.id)
+            .filter(|other_possible_team| {
+                !other_possible_team.0.in_team(team.0.goalie.id)
+                    && !other_possible_team.0.in_team(team.0.midfield.id)
+                    && !other_possible_team.0.in_team(team.0.forward.id)
             })
             .collect();
 
@@ -248,8 +283,10 @@ fn main() {
 
         name_hashset.insert(team_name.clone());
 
+		  let string_team = team.to_string_team(&player_names);
+
         let named_team = NamedTeam {
-            players: team,
+            players: string_team,
             name: team_name,
         };
 
@@ -281,11 +318,11 @@ fn main() {
 
     let res = std::fs::write("output_teams.json", serialized.as_bytes());
 
-	 if let Err(e) = res {
-		println!("Failed to write output: {}", e);
-	 }
+    if let Err(e) = res {
+        println!("Failed to write output: {}", e);
+    }
 
-	 pause();
+    pause();
 }
 
 fn pause() {
