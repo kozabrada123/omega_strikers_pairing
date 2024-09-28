@@ -95,15 +95,21 @@ fn main() {
         let mut blacklisted_players = Vec::new();
 
         for blacklisted_player_id in player.blacklisted_players.clone().into_iter() {
-            let mut blacklisted_player_name_index = 0;
+            let mut blacklisted_player_name_index = usize::MAX;
 
             for j in 0..player_names.len() {
                 let random_player_name = player_names.get(j).unwrap();
 
-                if blacklisted_player_id.eq(random_player_name) {
+                if blacklisted_player_id.to_lowercase().eq(&random_player_name.to_lowercase()) {
                     blacklisted_player_name_index = j;
                 }
             }
+
+				// We didn't find them player name
+				if blacklisted_player_name_index == usize::MAX {
+					println!("Player {} hates {}, but the latter is not a registered player. Ignoring", player.id, blacklisted_player_id);
+					continue;
+				}
 
 				blacklisted_players.push(blacklisted_player_name_index);
         }
