@@ -48,7 +48,7 @@ fn main() {
         pause();
     }
 
-    let team_name_adjectives: Vec<String> = team_name_adjectives_res.unwrap();
+    let team_name_adjectives_deserialized: Vec<String> = team_name_adjectives_res.unwrap();
 
     let read_to_string_res = std::fs::read_to_string("nouns.json");
 
@@ -66,7 +66,7 @@ fn main() {
         pause();
     }
 
-    let team_name_nouns: Vec<String> = team_name_nouns_res.unwrap();
+    let team_name_nouns_deserialized: Vec<String> = team_name_nouns_res.unwrap();
 
     // Cloning names is expensive, so only keep one instance of them while refering by
     // index in other cases
@@ -100,23 +100,34 @@ fn main() {
             for j in 0..player_names.len() {
                 let random_player_name = player_names.get(j).unwrap();
 
-                if blacklisted_player_id.to_lowercase().eq(&random_player_name.to_lowercase()) {
+                if blacklisted_player_id
+                    .to_lowercase()
+                    .eq(&random_player_name.to_lowercase())
+                {
                     blacklisted_player_name_index = j;
                 }
             }
 
-				// We didn't find them player name
-				if blacklisted_player_name_index == usize::MAX {
-					println!("Player {} hates {}, but the latter is not a registered player. Ignoring", player.id, blacklisted_player_id);
-					continue;
-				}
+            // We didn't find them player name
+            if blacklisted_player_name_index == usize::MAX {
+                println!(
+                    "Player {} hates {}, but the latter is not a registered player. Ignoring",
+                    player.id, blacklisted_player_id
+                );
+                continue;
+            }
 
-				blacklisted_players.push(blacklisted_player_name_index);
+            blacklisted_players.push(blacklisted_player_name_index);
         }
 
-		  let id_player = Player { id: player_name_index, blacklisted_players, role_preferences: player.role_preferences, rank: player.rank };
+        let id_player = Player {
+            id: player_name_index,
+            blacklisted_players,
+            role_preferences: player.role_preferences,
+            rank: player.rank,
+        };
 
-		  players.push(id_player);
+        players.push(id_player);
     }
 
     /*
@@ -267,14 +278,41 @@ fn main() {
 
     let mut named_teams = Vec::new();
 
+    let mut random = rand::thread_rng();
+
+    let mut available_team_adjectives = team_name_adjectives_deserialized.clone();
+    let mut available_team_nouns = team_name_nouns_deserialized.clone();
+
     for team in teams.into_iter() {
-        let mut team_name = NamedTeam::generate_name(&team_name_adjectives, &team_name_nouns);
+
+		  // Refresh the list if it is too small
+		  if available_team_adjectives.len() <= 2 && available_team_nouns.len() <= 2 {
+			 available_team_nouns = team_name_nouns_deserialized.clone();
+			 available_team_adjectives = team_name_adjectives_deserialized.clone();
+		  }
+
+        let adjective_i = random.gen_range(0..available_team_adjectives.len());
+        let adjective = available_team_adjectives[adjective_i].clone();
+
+        let noun_i = random.gen_range(0..available_team_nouns.len());
+        let noun = available_team_nouns[noun_i].clone();
+
+        let mut team_name = format!("{adjective} {noun}");
+
         let mut iterations: usize = 0;
         let mut team_name_unique = !name_hashset.contains(&team_name);
 
         while !team_name_unique {
-            team_name = NamedTeam::generate_name(&team_name_adjectives, &team_name_nouns);
-            team_name_unique = name_hashset.contains(&team_name);
+            let adjective_i = random.gen_range(0..available_team_adjectives.len());
+            let adjective = available_team_adjectives[adjective_i].clone();
+
+            let noun_i = random.gen_range(0..available_team_nouns.len());
+            let noun = available_team_nouns[noun_i].clone();
+
+            team_name = format!("{adjective} {noun}");
+
+				team_name_unique = name_hashset.contains(&team_name);
+
             iterations += 1;
 
             if iterations > 100_000 {
@@ -289,7 +327,10 @@ fn main() {
 
         name_hashset.insert(team_name.clone());
 
-		  let string_team = team.to_string_team(&player_names);
+		  available_team_adjectives.remove(adjective_i);
+		  available_team_nouns.remove(noun_i);
+
+        let string_team = team.to_string_team(&player_names);
 
         let named_team = NamedTeam {
             players: string_team,

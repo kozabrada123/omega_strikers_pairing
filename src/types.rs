@@ -296,8 +296,8 @@ impl NamedTeam {
     /// Creates a named team from a team and our lists, randomly generating a name
     pub fn from_team_and_lists(
 		  team: StringTeam,
-        adjectives: &Vec<String>,
-        nouns: &Vec<String>,
+        adjectives: &mut Vec<String>,
+        nouns: &mut Vec<String>,
     ) -> Self {
         Self {
             name: Self::generate_name(adjectives, nouns),
